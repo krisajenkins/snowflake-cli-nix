@@ -52,15 +52,21 @@ Add to your `flake.nix`:
   };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
-    flake-utils.lib.eachDefaultSystem (system: {
-      packages.default = nixpkgs.legacyPackages.${system}.buildEnv {
-        name = "my-tools";
-        paths = [
-          snowflake-cli-nix.packages.${system}.snowflake-cli
-          # your other packages...
-        ];
-      };
-    });
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+        };
+        snowflake-cli = snowflake-cli-nix.packages.${system}.snowflake-cli;
+      in {
+        packages.default = pkgs.buildEnv {
+          name = "my-tools";
+          paths = [
+            snowflake-cli
+            # your other packages...
+          ];
+        };
+      });
 }
 ```
 
@@ -82,12 +88,16 @@ Create a `shell.nix` or add to your `flake.nix`:
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+        pkgs = import nixpkgs {
+          inherit system;
+          # config.allowUnfree = true;  # If you need unfree packages
+        };
         snowflake-cli = snowflake-cli-nix.packages.${system}.snowflake-cli;
-      in
-      {
-        devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
+      in {
+        devShells.default = pkgs.mkShell {
           packages = [
             snowflake-cli
+            # your other development tools...
           ];
         };
       });
