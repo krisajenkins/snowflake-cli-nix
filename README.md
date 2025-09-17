@@ -13,6 +13,8 @@ All packages are upgraded from the versions available in nixpkgs 25.05 to ensure
 
 ## Installation
 
+> **Note**: All examples use `inputs.nixpkgs.follows = "nixpkgs"` to ensure snowflake-cli-nix uses your chosen nixpkgs version. This prevents multiple nixpkgs evaluations and ensures consistency across your entire project.
+
 ### Quick Try (No Installation)
 
 ```bash
@@ -40,9 +42,13 @@ Add to your `flake.nix`:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";  # Your preferred nixpkgs
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+
+    snowflake-cli-nix = {
+      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
+    };
   };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
@@ -65,19 +71,26 @@ Create a `shell.nix` or add to your `flake.nix`:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";  # Your preferred nixpkgs
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
-  };
+
+    snowflake-cli-nix = {
+      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
+    };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
-    flake-utils.lib.eachDefaultSystem (system: {
-      devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
-        packages = [
-          snowflake-cli-nix.packages.${system}.snowflake-cli
-        ];
-      };
-    });
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        snowflake-cli = snowflake-cli-nix.packages.${system}.snowflake-cli;
+      in
+      {
+        devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
+          packages = [
+            snowflake-cli
+          ];
+        };
+      });
 }
 ```
 
@@ -148,10 +161,13 @@ For advanced users who want to compose with other overlays:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";  # Your preferred nixpkgs
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
-  };
+
+    snowflake-cli-nix = {
+      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
+    };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -205,4 +221,3 @@ This repository contains Nix expressions for packaging existing software. See in
 
 - [Snowflake CLI License](https://github.com/snowflakedb/snowflake-cli)
 - [Snowflake Connector License](https://github.com/snowflakedb/snowflake-connector-python)
-
