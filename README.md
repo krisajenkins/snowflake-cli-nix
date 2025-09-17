@@ -17,20 +17,20 @@ All packages are upgraded from the versions available in nixpkgs 25.05 to ensure
 
 ```bash
 # Run snowflake CLI directly
-nix run github:krisajenkins/snowflake-cli-nix -- --version
+nix run github:krisajenkins/snowflake-cli-nix/v3.11.0 -- --version
 
-# Start a shell with snowflake CLI available
-nix shell github:krisajenkins/snowflake-cli-nix
+# Test in a shell
+nix shell github:krisajenkins/snowflake-cli-nix/v3.11.0 --command snow --version
 ```
 
 ### Install to Profile
 
 ```bash
 # Install snowflake CLI to your profile
-nix profile install github:krisajenkins/snowflake-cli-nix
+nix profile install github:krisajenkins/snowflake-cli-nix/v3.11.0
 
 # Check installation
-snowflake --version
+snow --version
 ```
 
 ### Use in Flake
@@ -40,9 +40,9 @@ Add to your `flake.nix`:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
   };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
@@ -65,9 +65,9 @@ Create a `shell.nix` or add to your `flake.nix`:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
   };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
@@ -84,7 +84,7 @@ Create a `shell.nix` or add to your `flake.nix`:
 Or use the provided development shell:
 
 ```bash
-nix develop github:krisajenkins/snowflake-cli-nix
+nix develop github:krisajenkins/snowflake-cli-nix/v3.11.0
 ```
 
 ### Traditional Nix
@@ -116,23 +116,20 @@ pkgs.snowflake-cli
 Access individual packages:
 
 ```bash
-nix run github:krisajenkins/snowflake-cli-nix#snowflake-core
-nix run github:krisajenkins/snowflake-cli-nix#snowflake-connector-python
+nix run github:krisajenkins/snowflake-cli-nix/v3.11.0#snowflake-core
+nix run github:krisajenkins/snowflake-cli-nix/v3.11.0#snowflake-connector-python
 ```
 
 ## Usage
 
-After installation, configure your Snowflake connection:
+After installation, check with:
 
 ```bash
-# Configure connection (interactive)
-snowflake connection add
-
-# Test connection
-snowflake connection test
+# Show version
+snow --version
 
 # Show help
-snowflake --help
+snow --help
 ```
 
 ## Supported Platforms
@@ -151,9 +148,9 @@ For advanced users who want to compose with other overlays:
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/25.05";
     flake-utils.url = "github:numtide/flake-utils";
-    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
   };
 
   outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
