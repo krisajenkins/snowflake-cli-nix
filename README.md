@@ -41,18 +41,20 @@ Add to your `flake.nix`:
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
     snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
   };
 
-  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
-    packages.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.buildEnv {
-      name = "my-tools";
-      paths = [
-        snowflake-cli-nix.packages.x86_64-linux.snowflake-cli
-        # your other packages...
-      ];
-    };
-  };
+  outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
+    flake-utils.lib.eachDefaultSystem (system: {
+      packages.default = nixpkgs.legacyPackages.${system}.buildEnv {
+        name = "my-tools";
+        paths = [
+          snowflake-cli-nix.packages.${system}.snowflake-cli
+          # your other packages...
+        ];
+      };
+    });
 }
 ```
 
@@ -62,15 +64,20 @@ Create a `shell.nix` or add to your `flake.nix`:
 
 ```nix
 {
-  inputs.snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
-
-  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
-    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-      packages = [
-        snowflake-cli-nix.packages.x86_64-linux.snowflake-cli
-      ];
-    };
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
   };
+
+  outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
+    flake-utils.lib.eachDefaultSystem (system: {
+      devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
+        packages = [
+          snowflake-cli-nix.packages.${system}.snowflake-cli
+        ];
+      };
+    });
 }
 ```
 
@@ -93,7 +100,8 @@ let
   pkgs = import <nixpkgs> {
     overlays = [ (import "${snowflake-src}/overlays/snowflake-cli.nix") ];
   };
-in pkgs.snowflake-cli
+in
+pkgs.snowflake-cli
 ```
 
 ## Available Packages
@@ -142,20 +150,26 @@ For advanced users who want to compose with other overlays:
 
 ```nix
 {
-  inputs.snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+  };
 
-  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
-    packages.x86_64-linux.default =
+  outputs = { nixpkgs, flake-utils, snowflake-cli-nix, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
-          system = "x86_64-linux";
+          inherit system;
           overlays = [
             snowflake-cli-nix.overlays.default
             # your other overlays...
           ];
         };
-      in pkgs.snowflake-cli;
-  };
+      in
+      {
+        packages.default = pkgs.snowflake-cli;
+      });
 }
 ```
 
@@ -172,8 +186,8 @@ nix build
 ### Common Issues
 
 1. **Import errors**: Ensure all dependencies are properly installed by using the complete package
-2. **Version conflicts**: This flake pins specific compatible versions to avoid conflicts
-3. **Platform support**: Check that your platform is supported above
+1. **Version conflicts**: This flake pins specific compatible versions to avoid conflicts
+1. **Platform support**: Check that your platform is supported above
 
 ### Getting Help
 
@@ -185,8 +199,8 @@ nix build
 Contributions are welcome! Please:
 
 1. Test your changes with `nix build`
-2. Update version numbers in both overlay files and README
-3. Ensure all platforms build successfully
+1. Update version numbers in both overlay files and README
+1. Ensure all platforms build successfully
 
 ## License
 
@@ -194,3 +208,4 @@ This repository contains Nix expressions for packaging existing software. See in
 
 - [Snowflake CLI License](https://github.com/snowflakedb/snowflake-cli)
 - [Snowflake Connector License](https://github.com/snowflakedb/snowflake-connector-python)
+
