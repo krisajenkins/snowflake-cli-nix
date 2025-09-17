@@ -1,0 +1,196 @@
+# Snowflake CLI for Nix
+
+This repository provides [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli/index) version 3.11.0 as a Nix package, along with all required dependencies.
+
+## What's Included
+
+- **snowflake-cli** 3.11.0 - Main Snowflake CLI tool
+- **snowflake-core** 1.7.0 - Core Snowflake Python library
+- **snowflake-connector-python** 3.17.3 - Updated Snowflake Python connector
+- **id** 1.5.0 - Required Python package for authentication
+
+All packages are upgraded from the versions available in nixpkgs 25.05 to ensure compatibility.
+
+## Installation
+
+### Quick Try (No Installation)
+
+```bash
+# Run snowflake CLI directly
+nix run github:krisajenkins/snowflake-cli-nix -- --version
+
+# Start a shell with snowflake CLI available
+nix shell github:krisajenkins/snowflake-cli-nix
+```
+
+### Install to Profile
+
+```bash
+# Install snowflake CLI to your profile
+nix profile install github:krisajenkins/snowflake-cli-nix
+
+# Check installation
+snowflake --version
+```
+
+### Use in Flake
+
+Add to your `flake.nix`:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+  };
+
+  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
+    packages.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.buildEnv {
+      name = "my-tools";
+      paths = [
+        snowflake-cli-nix.packages.x86_64-linux.snowflake-cli
+        # your other packages...
+      ];
+    };
+  };
+}
+```
+
+### Development Shell
+
+Create a `shell.nix` or add to your `flake.nix`:
+
+```nix
+{
+  inputs.snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+
+  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
+    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+      packages = [
+        snowflake-cli-nix.packages.x86_64-linux.snowflake-cli
+      ];
+    };
+  };
+}
+```
+
+Or use the provided development shell:
+
+```bash
+nix develop github:krisajenkins/snowflake-cli-nix
+```
+
+### Traditional Nix
+
+For non-flake usage, you can import the overlay:
+
+```nix
+let
+  snowflake-src = builtins.fetchGit {
+    url = "https://github.com/krisajenkins/snowflake-cli-nix";
+    ref = "main";
+  };
+  pkgs = import <nixpkgs> {
+    overlays = [ (import "${snowflake-src}/overlays/snowflake-cli.nix") ];
+  };
+in pkgs.snowflake-cli
+```
+
+## Available Packages
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| `snowflake-cli` (default) | 3.11.0 | Main Snowflake CLI tool |
+| `snowflake-core` | 1.7.0 | Core Snowflake Python library |
+| `snowflake-connector-python` | 3.17.3 | Snowflake Python connector |
+| `id` | 1.5.0 | Authentication utility |
+
+Access individual packages:
+
+```bash
+nix run github:krisajenkins/snowflake-cli-nix#snowflake-core
+nix run github:krisajenkins/snowflake-cli-nix#snowflake-connector-python
+```
+
+## Usage
+
+After installation, configure your Snowflake connection:
+
+```bash
+# Configure connection (interactive)
+snowflake connection add
+
+# Test connection
+snowflake connection test
+
+# Show help
+snowflake --help
+```
+
+## Supported Platforms
+
+- x86_64-linux
+- aarch64-linux
+- x86_64-darwin
+- aarch64-darwin
+
+## Advanced Usage
+
+### Using Overlays
+
+For advanced users who want to compose with other overlays:
+
+```nix
+{
+  inputs.snowflake-cli-nix.url = "github:krisajenkins/snowflake-cli-nix";
+
+  outputs = { nixpkgs, snowflake-cli-nix, ... }: {
+    packages.x86_64-linux.default =
+      let
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = [
+            snowflake-cli-nix.overlays.default
+            # your other overlays...
+          ];
+        };
+      in pkgs.snowflake-cli;
+  };
+}
+```
+
+## Building from Source
+
+```bash
+git clone https://github.com/krisajenkins/snowflake-cli-nix
+cd snowflake-cli-nix
+nix build
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Import errors**: Ensure all dependencies are properly installed by using the complete package
+2. **Version conflicts**: This flake pins specific compatible versions to avoid conflicts
+3. **Platform support**: Check that your platform is supported above
+
+### Getting Help
+
+- [Snowflake CLI Documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/index)
+- [File an issue](https://github.com/krisajenkins/snowflake-cli-nix/issues)
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Test your changes with `nix build`
+2. Update version numbers in both overlay files and README
+3. Ensure all platforms build successfully
+
+## License
+
+This repository contains Nix expressions for packaging existing software. See individual software licenses:
+
+- [Snowflake CLI License](https://github.com/snowflakedb/snowflake-cli)
+- [Snowflake Connector License](https://github.com/snowflakedb/snowflake-connector-python)
