@@ -1,11 +1,11 @@
 final: prev: {
   snowflake-cli = prev.snowflake-cli.overridePythonAttrs (oldAttrs: rec {
-    version = "3.11.0";
+    version = "3.13.0-rc0";
     src = prev.fetchFromGitHub {
       owner = "snowflakedb";
       repo = "snowflake-cli";
       tag = "v${version}";
-      hash = "sha256-dJc5q3vE1G6oJq9V4JSPaSyODxKDyhprIwBo39Nu/bA=";
+      hash = "sha256-QRuhntct5vTgNeuHGpK34gO2XtfScO0vxE13ZN/qvOc=";
     };
     dependencies = (oldAttrs.dependencies or []) ++ (with prev.python3Packages; [
       prompt-toolkit

@@ -1,5 +1,5 @@
 {
-  description = "Snowflake CLI 3.11.0 for Nix";
+  description = "Snowflake CLI for Nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/25.05";
@@ -20,7 +20,7 @@
           ];
         };
       in
-      {
+      rec {
         # Expose packages for easy consumption
         packages = {
           default = pkgs.snowflake-cli;
@@ -41,6 +41,12 @@
           snowflake-complete = self.overlays.default;
         };
 
+        apps.default = {
+          type = "app";
+          meta = packages.snowflake-cli.meta;
+          program = "${self.packages.${system}.snowflake-cli}/bin/snow";
+        };
+
         # Development shell with snowflake-cli available
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
@@ -54,3 +60,4 @@
       }
     );
 }
+

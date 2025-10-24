@@ -1,10 +1,10 @@
 # Snowflake CLI for Nix
 
-This repository provides [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli/index) version 3.11.0 as a Nix package, along with all required dependencies.
+This repository provides [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli/index) version 3.13.0-rc0 as a Nix package, along with all required dependencies.
 
 ## What's Included
 
-- **snowflake-cli** 3.11.0 - Main Snowflake CLI tool
+- **snowflake-cli** 3.13.0-rc0 - Main Snowflake CLI tool
 - **snowflake-core** 1.7.0 - Core Snowflake Python library
 - **snowflake-connector-python** 3.17.3 - Updated Snowflake Python connector
 - **id** 1.5.0 - Required Python package for authentication
@@ -19,17 +19,17 @@ All packages are upgraded from the versions available in nixpkgs 25.05 to ensure
 
 ```bash
 # Run snowflake CLI directly
-nix run github:krisajenkins/snowflake-cli-nix/v3.11.0 -- --version
+nix run github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0 -- --version
 
 # Test in a shell
-nix shell github:krisajenkins/snowflake-cli-nix/v3.11.0 --command snow --version
+nix shell github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0 --command snow --version
 ```
 
 ### Install to Profile
 
 ```bash
 # Install snowflake CLI to your profile
-nix profile install github:krisajenkins/snowflake-cli-nix/v3.11.0
+nix profile install github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0
 
 # Check installation
 snow --version
@@ -46,7 +46,7 @@ Add to your `flake.nix`:
     flake-utils.url = "github:numtide/flake-utils";
 
     snowflake-cli-nix = {
-      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      url = "github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0";
       inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
     };
   };
@@ -81,7 +81,7 @@ Create a `shell.nix` or add to your `flake.nix`:
     flake-utils.url = "github:numtide/flake-utils";
 
     snowflake-cli-nix = {
-      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      url = "github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0";
       inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
     };
 
@@ -107,7 +107,7 @@ Create a `shell.nix` or add to your `flake.nix`:
 Or use the provided development shell:
 
 ```bash
-nix develop github:krisajenkins/snowflake-cli-nix/v3.11.0
+nix develop github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0
 ```
 
 ### Traditional Nix
@@ -131,7 +131,7 @@ pkgs.snowflake-cli
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| `snowflake-cli` (default) | 3.11.0 | Main Snowflake CLI tool |
+| `snowflake-cli` (default) | 3.13.0-rc0 | Main Snowflake CLI tool |
 | `snowflake-core` | 1.7.0 | Core Snowflake Python library |
 | `snowflake-connector-python` | 3.17.3 | Snowflake Python connector |
 | `id` | 1.5.0 | Authentication utility |
@@ -139,8 +139,8 @@ pkgs.snowflake-cli
 Access individual packages:
 
 ```bash
-nix run github:krisajenkins/snowflake-cli-nix/v3.11.0#snowflake-core
-nix run github:krisajenkins/snowflake-cli-nix/v3.11.0#snowflake-connector-python
+nix run github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0#snowflake-core
+nix run github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0#snowflake-connector-python
 ```
 
 ## Usage
@@ -175,7 +175,7 @@ For advanced users who want to compose with other overlays:
     flake-utils.url = "github:numtide/flake-utils";
 
     snowflake-cli-nix = {
-      url = "github:krisajenkins/snowflake-cli-nix/v3.11.0";
+      url = "github:krisajenkins/snowflake-cli-nix/v3.13.0-rc0";
       inputs.nixpkgs.follows = "nixpkgs";  # Use your nixpkgs version
     };
 
