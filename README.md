@@ -6,7 +6,7 @@ This repository provides [Snowflake CLI](https://docs.snowflake.com/en/developer
 
 - **snowflake-cli** 3.13.0 - Main Snowflake CLI tool
 - **snowflake-core** 1.7.0 - Core Snowflake Python library
-- **snowflake-connector-python** 3.17.3 - Updated Snowflake Python connector
+- **snowflake-connector-python** 3.18.0 - Updated Snowflake Python connector
 - **id** 1.5.0 - Required Python package for authentication
 
 All packages are upgraded from the versions available in nixpkgs 25.05 to ensure compatibility.
@@ -133,7 +133,7 @@ pkgs.snowflake-cli
 |---------|---------|-------------|
 | `snowflake-cli` (default) | 3.13.0 | Main Snowflake CLI tool |
 | `snowflake-core` | 1.7.0 | Core Snowflake Python library |
-| `snowflake-connector-python` | 3.17.3 | Snowflake Python connector |
+| `snowflake-connector-python` | 3.18.0 | Snowflake Python connector |
 | `id` | 1.5.0 | Authentication utility |
 
 Access individual packages:

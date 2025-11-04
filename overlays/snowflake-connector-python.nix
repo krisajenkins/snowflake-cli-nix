@@ -2,12 +2,12 @@ final: prev: {
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (pythonFinal: pythonPrev: {
       snowflake-connector-python = pythonPrev.snowflake-connector-python.overridePythonAttrs (oldAttrs: rec {
-        version = "3.17.3";
+        version = "3.18.0";
         src = prev.fetchFromGitHub {
           owner = "snowflakedb";
           repo = "snowflake-connector-python";
           tag = "v${version}";
-          hash = "sha256-fvVYL9NUe/01Q22KETWZpOig9zyk2iF9n0beI/hqFIM=";
+          hash = "sha256-PEAfkrZSyDkWu/NrRomxf+YI9+6xcV2WVEmDxueHFqM=";
         };
         dependencies = (oldAttrs.dependencies or []) ++ (with pythonPrev; [
           boto3
