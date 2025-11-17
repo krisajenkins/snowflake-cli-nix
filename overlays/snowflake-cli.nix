@@ -1,3 +1,5 @@
+# Latest version: https://github.com/snowflakedb/snowflake-cli/releases/latest
+# Update hash: nix-prefetch-url --unpack https://github.com/snowflakedb/snowflake-cli/archive/refs/tags/vX.Y.Z.tar.gz
 final: prev: {
   snowflake-cli = prev.snowflake-cli.overridePythonAttrs (oldAttrs: rec {
     version = "3.13.0";

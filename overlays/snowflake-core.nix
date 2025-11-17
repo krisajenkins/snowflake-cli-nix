@@ -1,15 +1,17 @@
+# Latest version: https://pypi.org/project/snowflake-core/
+# Update hash: nix-prefetch-url https://pypi.org/packages/source/s/snowflake-core/snowflake_core-X.Y.Z.tar.gz (no --unpack for fetchPypi)
 final: prev: {
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (pythonFinal: pythonPrev: {
       snowflake-core = pythonPrev.buildPythonPackage rec {
         pname = "snowflake-core";
-        version = "1.7.0";
+        version = "1.9.0";
         pyproject = true;
 
         src = pythonPrev.fetchPypi {
           pname = "snowflake_core";
           inherit version;
-          hash = "sha256-hlWpTCEa4E0dgD28h2JJ3m0/gCHMVzjWia6oQtG2an8=";
+          hash = "sha256-EIOgGITpzOuT3AdcmbvJrp16/YCL88/4wANiTTXxGdA=";
         };
 
         build-system = with pythonPrev; [

@@ -1,13 +1,15 @@
+# Latest version: https://github.com/snowflakedb/snowflake-connector-python/releases/latest
+# Update hash: nix-prefetch-url --unpack https://github.com/snowflakedb/snowflake-connector-python/archive/refs/tags/vX.Y.Z.tar.gz
 final: prev: {
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (pythonFinal: pythonPrev: {
       snowflake-connector-python = pythonPrev.snowflake-connector-python.overridePythonAttrs (oldAttrs: rec {
-        version = "3.18.0";
+        version = "4.0.0";
         src = prev.fetchFromGitHub {
           owner = "snowflakedb";
           repo = "snowflake-connector-python";
           tag = "v${version}";
-          hash = "sha256-PEAfkrZSyDkWu/NrRomxf+YI9+6xcV2WVEmDxueHFqM=";
+          hash = "sha256-Fwb6G4tn9A8xMKn0zSO3jZSGBcm8cLdlj1pPvEcM3LQ=";
         };
         dependencies = (oldAttrs.dependencies or []) ++ (with pythonPrev; [
           boto3

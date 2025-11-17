@@ -1,3 +1,5 @@
+# Latest version: https://pypi.org/project/id/
+# Update hash: nix-prefetch-url https://pypi.org/packages/source/i/id/id-X.Y.Z.tar.gz (no --unpack for fetchPypi)
 final: prev: {
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (pythonFinal: pythonPrev: {
