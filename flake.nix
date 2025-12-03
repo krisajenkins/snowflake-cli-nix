@@ -16,6 +16,8 @@
             (import ./overlays/python-id.nix)
             (import ./overlays/snowflake-connector-python.nix)
             (import ./overlays/snowflake-core.nix)
+            (import ./overlays/protoc-wheel-0.nix)
+            (import ./overlays/snowflake-snowpark-python.nix)
             (import ./overlays/snowflake-cli.nix)
           ];
         };
@@ -27,6 +29,7 @@
           snowflake-cli = pkgs.snowflake-cli;
           snowflake-core = pkgs.python3Packages.snowflake-core;
           snowflake-connector-python = pkgs.python3Packages.snowflake-connector-python;
+          snowflake-snowpark-python = pkgs.python3Packages.snowflake-snowpark-python;
           id = pkgs.python3Packages.id;
         };
 
@@ -36,6 +39,8 @@
             (import ./overlays/python-id.nix)
             (import ./overlays/snowflake-connector-python.nix)
             (import ./overlays/snowflake-core.nix)
+            (import ./overlays/protoc-wheel-0.nix)
+            (import ./overlays/snowflake-snowpark-python.nix)
             (import ./overlays/snowflake-cli.nix)
           ];
           snowflake-complete = self.overlays.default;
