@@ -11,7 +11,7 @@ final: prev: {
           tag = "v${version}";
           hash = "sha256-ZRSbUPYSeUYEy6VEJbipIh+PLk/SR1hpGdRsM5ibN0Q=";
         };
-        dependencies = (oldAttrs.dependencies or []) ++ (with pythonPrev; [
+        dependencies = (oldAttrs.dependencies or [ ]) ++ (with pythonPrev; [
           boto3
           botocore
         ]);
