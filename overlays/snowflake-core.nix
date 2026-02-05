@@ -5,13 +5,13 @@ final: prev: {
     (pythonFinal: pythonPrev: {
       snowflake-core = pythonPrev.buildPythonPackage rec {
         pname = "snowflake-core";
-        version = "1.9.0";
+        version = "1.10.0";
         pyproject = true;
 
         src = pythonPrev.fetchPypi {
           pname = "snowflake_core";
           inherit version;
-          hash = "sha256-EIOgGITpzOuT3AdcmbvJrp16/YCL88/4wANiTTXxGdA=";
+          hash = "sha256-JC2WNa6gbcKl5UlM62B3x22pO9EC725bR31oIMfSCdk=";
         };
 
         build-system = with pythonPrev; [
