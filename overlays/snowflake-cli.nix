@@ -1,3 +1,4 @@
+# Check for updates: gh api repos/snowflakedb/snowflake-cli/releases/latest --jq '.tag_name'
 # Latest version: https://github.com/snowflakedb/snowflake-cli/releases/latest
 # Update hash: nix-prefetch-url --unpack https://github.com/snowflakedb/snowflake-cli/archive/refs/tags/vX.Y.Z.tar.gz
 final: prev: {
