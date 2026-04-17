@@ -14,6 +14,7 @@ final: prev: {
       snowflake-core
       snowflake-snowpark-python
       id
+      keyring
     ]);
     # Disable shell completion installation as it fails
     postInstall = "";
