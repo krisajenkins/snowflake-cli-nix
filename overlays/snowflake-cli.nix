@@ -2,12 +2,12 @@
 # Update hash: nix-prefetch-url --unpack https://github.com/snowflakedb/snowflake-cli/archive/refs/tags/vX.Y.Z.tar.gz
 final: prev: {
   snowflake-cli = prev.snowflake-cli.overridePythonAttrs (oldAttrs: rec {
-    version = "3.15.0";
+    version = "3.16.0";
     src = prev.fetchFromGitHub {
       owner = "snowflakedb";
       repo = "snowflake-cli";
       tag = "v${version}";
-      hash = "sha256-c0o23clm3Qrq4YoZd0N0aW7UntGmRhNY09WYgk9MIzA=";
+      hash = "sha256-0n1h7zg0mUyCKRsunP5mlV8pNx9YS5CHup6wSyJvlVQ=";
     };
     dependencies = (oldAttrs.dependencies or [ ]) ++ (with prev.python3Packages; [
       prompt-toolkit
